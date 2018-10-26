@@ -1,5 +1,5 @@
-./.vagrant
-./.idea
-./customized_addons
-./odoo.conf
-./*.log
+.vagrant
+.idea
+customized_addons
+odoo.conf
+*.log
