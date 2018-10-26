@@ -1,0 +1,6 @@
+[submodule "odoo"]
+	path = odoo
+	url = https://git@github.com/odoo/odoo.git
+[submodule "enterprise"]
+	path = enterprise
+	url = https://git@github.com/odoo/enterprise.git
