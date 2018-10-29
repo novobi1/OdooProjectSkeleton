@@ -3,4 +3,4 @@
 	url = https://git@github.com/odoo/odoo.git
 [submodule "enterprise"]
 	path = enterprise
-	url = https://git@github.com/odoo/enterprise.git
+	url = https://github.com/odoo/enterprise.git
