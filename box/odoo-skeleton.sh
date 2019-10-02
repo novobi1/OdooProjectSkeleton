@@ -9,11 +9,15 @@ WKHTMLTOX="https://github.com/wkhtmltopdf/wkhtmltopdf/releases/download/0.12.5/w
 sudo apt-get update
 sudo apt-get upgrade -y
 
+
 echo -e "\n--- Installing Python 3 + pip3 --"
 sudo apt-get install python3 python3-pip
 
 echo -e "\n---- Install tool packages ----"
 sudo apt-get install wget git bzr python-pip gdebi-core -y
+
+echo -e "\n--- Install Postgres---"
+sudo apt-get install libpq-dev postgres
 
 echo -e "\n---- Install python packages ----"
 sudo apt-get install python-pypdf2 python-dateutil python-feedparser python-ldap python-libxslt1 python-lxml python-mako python-openid python-psycopg2 python-pybabel python-pychart python-pydot python-pyparsing python-reportlab python-simplejson python-tz python-vatnumber python-vobject python-webdav python-werkzeug python-xlwt python-yaml python-zsi python-docutils python-psutil python-mock python-unittest2 python-jinja2 python-pypdf python-decorator python-requests python-passlib python-pil -y
@@ -24,7 +28,7 @@ echo -e "\n---- Install python libraries ----"
 sudo apt-get install python3-suds
 
 echo -e "\n--- Install other required packages"
-sudo apt-get install node-clean-css -y
+sudo apt-get install node-clean-css node-gyp -y
 sudo apt-get install node-less -y
 sudo apt-get install python-gevent -y
 
@@ -49,11 +53,11 @@ npm install -g less
 npm install -g less-plugin-clean-css
 
 sudo pip3 install --upgrade wheel
-sudo pip3 install vobject wkhtmltopdf num2words phonenumbers pyOpenSSL newrelic num2words xlwt pypdf2 Babel passlib Werkzeug decorator python-dateutil pyyaml psycopg2 psutil html2text docutils lxml pillow reportlab ninja2 requests gdata XlsxWriter vobject python-openid pyparsing pydot mock mako Jinja2 ebaysdk feedparser xlwt psycogreen suds-jurko pytz pyusb greenlet xlrd
+sudo pip3 install vobject wkhtmltopdf num2words phonenumbers pyOpenSSL newrelic num2words xlwt pypdf2 Babel passlib Werkzeug decorator python-dateutil pyyaml psycopg2 psutil html2text docutils lxml pillow reportlab ninja2 requests gdata XlsxWriter vobject python-openid pyparsing pydot mock mako Jinja2 ebaysdk feedparser xlwt psycogreen suds-jurko pytz pyusb greenlet xlrd libpq-dev
 
 echo -e "\n---create odoo user and postgres role"
 sudo apt-get install postgresql -y
-sudo su - postgres -c "createuser -s odoo"
+sudo su - postgres -c "createuser -s odoo with encrypted password '123456'"
 sudo adduser --system --quiet --shell=/bin/bash --home=$HOME --gecos 'ODOO' --group odoo
 sudo adduser odoo sudo
 
