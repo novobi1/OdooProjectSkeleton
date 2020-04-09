@@ -4,65 +4,58 @@
 # not an install script that will run at once.
 # Some of these commands below are interactive
 
-WKHTMLTOX="https://github.com/wkhtmltopdf/wkhtmltopdf/releases/download/0.12.5/wkhtmltox_0.12.5-1.xenial_amd64.deb"
 
 sudo apt-get update
 sudo apt-get upgrade -y
 
-
 echo -e "\n--- Installing Python 3 + pip3 --"
-sudo apt-get install python3 python3-pip
+sudo apt install -y --no-install-recommends  \
+            python3-pip \
+            python3-setuptools \
+            python3-renderpm \
+            libssl1.0-dev \
+            xz-utils \
+            python3-watchdog \
+            python3-pypdf2 \
+            python3-dev \
+            gcc \
+            wget \
+            git \
+            bzr gdebi-core zip unzip \
+            libfontconfig1 libxrender1 libxext6 \
+            fontconfig xfonts-75dpi xfonts-base \
+            build-essential libldap2-dev libsasl2-dev ldap-utils libpq-dev libxml2-dev libxslt1-dev
 
-echo -e "\n---- Install tool packages ----"
-sudo apt-get install wget git bzr python-pip gdebi-core -y
+echo -e "\n--- Installing pip3 packages"
+sudo pip3 -r requirements.txt
 
-echo -e "\n--- Install Postgres---"
-sudo apt-get install libpq-dev postgres
-
-echo -e "\n---- Install python packages ----"
-sudo apt-get install python-pypdf2 python-dateutil python-feedparser python-ldap python-libxslt1 python-lxml python-mako python-openid python-psycopg2 python-pybabel python-pychart python-pydot python-pyparsing python-reportlab python-simplejson python-tz python-vatnumber python-vobject python-webdav python-werkzeug python-xlwt python-yaml python-zsi python-docutils python-psutil python-mock python-unittest2 python-jinja2 python-pypdf python-decorator python-requests python-passlib python-pil -y
-sudo pip3 install pypdf2 Babel passlib Werkzeug decorator python-dateutil pyyaml psycopg2 psutil html2text docutils lxml pillow reportlab ninja2 requests gdata XlsxWriter vobject python-openid pyparsing pydot mock mako Jinja2 ebaysdk feedparser xlwt psycogreen suds-jurko pytz pyusb greenlet xlrd python-suds
-
-echo -e "\n---- Install python libraries ----"
-# This is for compatibility with Ubuntu 16.04. Will work on 14.04, 15.04 and 16.04
-sudo apt-get install python3-suds
-
-echo -e "\n--- Install other required packages"
-sudo apt-get install node-clean-css node-gyp -y
-sudo apt-get install node-less -y
-sudo apt-get install python-gevent -y
 
 #install wkhtml
 echo -e "\n--- Install wkhtml"
+WKHTMLTOX="https://builds.wkhtmltopdf.org/0.12.1.3/wkhtmltox_0.12.1.3-1~bionic_amd64.deb"
 sudo wget $WKHTMLTOX
 sudo gdebi --n `basename $WKHTMLTOX`
 sudo ln -s /usr/local/bin/wkhtmltopdf /usr/bin
 sudo ln -s /usr/local/bin/wkhtmltoimage /usr/bin
-
-echo -e "\n--- Install more for odoo12"
-
-sudo apt-get install -y ca-certificates curl gnupg2 python3-setuptools python3-renderpm libssl-dev xz-utils python3-watchdog python3-pypdf2 python3-dev gcc pysassc python3-gevent
+sudo rm `basename $WKHTMLTOX`
 
 #switch to root and execute this before installing nodejs"
-sudo curl -sL https://deb.nodesource.com/setup_10.x | bash -
 
 echo -e "\n---install nodejs"
-sudo apt-get install -y nodejs npm
-sudo apt-get install -y npm
-npm install -g less
-npm install -g less-plugin-clean-css
+sudo curl -sL https://deb.nodesource.com/setup_10.x | bash -
+sudo apt install -y nodejs
+sudo npm install -g less less-plugin-clean-css
 
-sudo pip3 install --upgrade wheel
-sudo pip3 install vobject wkhtmltopdf num2words phonenumbers pyOpenSSL newrelic num2words xlwt pypdf2 Babel passlib Werkzeug decorator python-dateutil pyyaml psycopg2 psutil html2text docutils lxml pillow reportlab ninja2 requests gdata XlsxWriter vobject python-openid pyparsing pydot mock mako Jinja2 ebaysdk feedparser xlwt psycogreen suds-jurko pytz pyusb greenlet xlrd libpq-dev
+#Install Postgres
 
 echo -e "\n---create odoo user and postgres role"
 sudo apt-get install postgresql -y
-sudo su - postgres -c "createuser -s odoo with encrypted password '123456'"
+sudo -u postgres  psql -c "create role odoo with login password '123456';"
 sudo adduser --system --quiet --shell=/bin/bash --home=$HOME --gecos 'ODOO' --group odoo
-sudo adduser odoo sudo
 
-####create systemd script if need be#########
-sudo nano /lib/systemd/system/odoo.service
-sudo systemctl enable odoo.service
-sudo systemctl daemon-reload
 
+
+#Nginx
+sudo apt install nginx -y
+sudo cp -f odoo_nginx.conf /etc/nginx/sites-available/default
+sudo service nginx restart
