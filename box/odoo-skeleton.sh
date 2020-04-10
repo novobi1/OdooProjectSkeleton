@@ -13,6 +13,7 @@ sudo apt install -y --no-install-recommends  \
             python3-pip \
             python3-setuptools \
             python3-renderpm \
+            python3-wheel \
             libssl1.0-dev \
             xz-utils \
             python3-watchdog \
@@ -27,7 +28,7 @@ sudo apt install -y --no-install-recommends  \
             build-essential libldap2-dev libsasl2-dev ldap-utils libpq-dev libxml2-dev libxslt1-dev
 
 echo -e "\n--- Installing pip3 packages"
-sudo pip3 -r requirements.txt
+sudo pip3 install -r requirements.txt
 
 
 #install wkhtml
@@ -50,7 +51,7 @@ sudo npm install -g less less-plugin-clean-css
 
 echo -e "\n---create odoo user and postgres role"
 sudo apt-get install postgresql -y
-sudo -u postgres  psql -c "create role odoo with login password '123456';"
+sudo -u postgres  psql -c "create role odoo with login CREATEDB  password 'odoo';"
 sudo adduser --system --quiet --shell=/bin/bash --home=$HOME --gecos 'ODOO' --group odoo
 
 
@@ -59,3 +60,5 @@ sudo adduser --system --quiet --shell=/bin/bash --home=$HOME --gecos 'ODOO' --gr
 sudo apt install nginx -y
 sudo cp -f odoo_nginx.conf /etc/nginx/sites-available/default
 sudo service nginx restart
+# Redis
+sudo apt install redis -y
