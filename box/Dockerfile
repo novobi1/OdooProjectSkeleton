@@ -23,7 +23,9 @@ RUN set -x; \
             xz-utils \
             python3-watchdog \
             python3-dev \
-            gcc \            
+            gcc \
+            git \
+            bzr zip unzip \ 
             pysassc \
             libfontconfig1 libxrender1 libxext6 \
             fontconfig xfonts-75dpi xfonts-base \
