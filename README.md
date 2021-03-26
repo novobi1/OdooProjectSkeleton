@@ -1,1 +1,1 @@
-# OdooProjectSkeletonNew
+# OdooProjectSkeleton using Docker
