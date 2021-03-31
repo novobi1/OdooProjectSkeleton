@@ -3,11 +3,12 @@ version: "3.9"
 services:
   odoo:
     image: novobidevops/odoo:14
+    # build: ./box
+    ports:
+      - "8069:8069"
     volumes:
       - ./:/opt/odoo
       - odoo_data:/root/.local/share/Odoo
-    ports:
-      - "8069:8069"
     depends_on:
       - postgres
       - nginx
@@ -15,10 +16,10 @@ services:
     tty: true
   nginx:
     image: nginx
-    volumes:
-      - ./box/odoo_nginx.conf:/etc/nginx/conf.d/default.conf
     ports:
       - "80:80"
+    volumes:
+      - ./box/odoo_nginx.conf:/etc/nginx/conf.d/default.conf
     restart: unless-stopped
     tty: true
   postgres:

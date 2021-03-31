@@ -1,57 +1,11 @@
-# syntax=docker/dockerfile:1.0.0-experimental
-# Odoo 14 base
-# version 3.0
+FROM novobidevops/odoo:14
+# FROM novobidevops/odoo:13
+# FROM novobidevops/odoo:12
 
-FROM python:3.7-slim-stretch
+# Example 1
+# RUN pip3 install --no-cache-dir paramiko
 
-ENV LANG C.UTF-8
-
-COPY wkhtmltopdf_packages.txt /etc/
-COPY odoo14-requirements.txt /etc/
-
-RUN set -x; \
-        apt-get update && \
-        apt-get install -y --no-install-recommends \
-# necessary base packages for odoo
-            ca-certificates \
-            curl \
-            git wget  \
-            gnupg2 \
-            python3-pip \
-            python3-renderpm \
-            libssl1.0-dev \
-            xz-utils \
-            python3-watchdog \
-            python3-dev \
-            gcc \
-            git \
-            bzr zip unzip \ 
-            pysassc \
-            libfontconfig1 libxrender1 libxext6 \
-            fontconfig xfonts-75dpi xfonts-base \
-            build-essential libldap2-dev libsasl2-dev ldap-utils \
-            locales; \
-# necessary packages for wkhtmltopdf
-            wget -i /etc/wkhtmltopdf_packages.txt && \
-            dpkg -i *.deb && \
-            rm *.deb; \
-# install nodejs
-            curl -sL https://deb.nodesource.com/setup_10.x | bash - && \
-            apt-get install nodejs npm -y && npm install -g rtlcss less less-plugin-clean-css; \
-# setting locale
-            sed -i -e 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen && locale-gen; \
-# install postgresql 10
-            echo 'deb http://apt.postgresql.org/pub/repos/apt/ stretch-pgdg main' >  /etc/apt/sources.list.d/pgdg.list && \
-            wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add - && \
-            apt-get update && \
-            apt-get install -y postgresql-client-10; \
-# clean apt cache
-            apt-get autoremove -y && \
-            apt-get clean; \
-# install python3 libs 
-            pip3 install --no-cache-dir --upgrade wheel setuptools && \
-            pip3 install --no-cache-dir redis && \
-            pip3 install --no-cache-dir -r /etc/odoo14-requirements.txt
-
-ENV LANG en_US.UTF-8
-ENV LANGUAGE en_US:en
+# Example 2
+# COPY python3-requirements.txt /etc/
+# RUN pip3 install --no-cache-dir -r /etc/python3-requirements.txt
+# RUN rm /etc/python3-requirements.txt)0))
