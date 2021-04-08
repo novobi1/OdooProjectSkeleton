@@ -50,7 +50,7 @@ RUN set -x; \
             apt-get clean; \
 # install python3 libs 
             pip3 install --no-cache-dir --upgrade wheel setuptools && \
-            pip3 install --no-cache-dir redis && \
+            pip3 install --no-cache-dir redis debugpy && \
             pip3 install --no-cache-dir -r /etc/odoo14-requirements.txt
 
 ENV LANG en_US.UTF-8
