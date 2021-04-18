@@ -3,6 +3,11 @@ version: "3.9"
 services:
   odoo:
     image: novobidevops/odoo:14
+    # If developer want to use their own Docker environment, Do the following actions : 
+    # + comment line #5 
+    # + uncomment line #11. 
+    # + Make adjustment on file ./box/Dockerfile
+    
     # build: ./box
     ports:
       - "8069:8069"
